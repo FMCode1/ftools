@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Contract Renewal Assistant - Test Cases</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fa;
+      color: #172033;
+    }
+
+    /* ==========================================
+       TOP BAR
+       ========================================== */
+
+    .topbar {
+      height: 60px;
+      background: #172033;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .agent {
+      margin-left: auto;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #28c76f;
+      border-radius: 50%;
+    }
+
+
+    /* ==========================================
+       LAYOUT
+       ========================================== */
+
+    .layout {
+      display: flex;
+      min-height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      width: 220px;
+      background: white;
+      border-right: 1px solid #e1e5eb;
+      padding: 18px 12px;
+    }
+
+    .nav {
+      padding: 11px 13px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      color: #687487;
+      font-size: 14px;
+    }
+
+    .nav.active {
+      background: #e9f0ff;
+      color: #2867ce;
+      font-weight: 600;
+    }
+
+    .page {
+      flex: 1;
+      padding: 30px;
+    }
+
+
+    /* ==========================================
+       TEST CASE SELECTOR
+       ========================================== */
+
+    .test-panel {
+      max-width: 1000px;
+      margin-bottom: 20px;
+      background: white;
+      border: 1px solid #e0e5ec;
+      border-radius: 9px;
+      padding: 18px 20px;
+    }
+
+    .test-label {
+      font-size: 12px;
+      color: #737e8e;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .case-selector {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .case-button {
+      border: 1px solid #d7dde6;
+      background: white;
+      color: #4e5b6d;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .case-button:hover {
+      border-color: #2867ce;
+      color: #2867ce;
+    }
+
+    .case-button.active {
+      background: #2867ce;
+      border-color: #2867ce;
+      color: white;
+    }
+
+
+    /* ==========================================
+       CUSTOMER PROFILE
+       ========================================== */
+
+    .breadcrumb {
+      color: #7a8493;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    .profile {
+      background: white;
+      border: 1px solid #e0e5ec;
+      border-radius: 9px;
+      overflow: hidden;
+      max-width: 1000px;
+    }
+
+    .profile-header {
+      padding: 22px;
+      border-bottom: 1px solid #e5e8ed;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #dce8fb;
+      color: #2867ce;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      font-size: 19px;
+    }
+
+    .customer-name {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .customer-id {
+      margin-top: 4px;
+      color: #7a8493;
+      font-size: 13px;
+    }
+
+    .profile-body {
+      padding: 22px;
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .field-label {
+      color: #7a8493;
+      font-size: 12px;
+      margin-bottom: 5px;
+    }
+
+    .field-value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .contract-section {
+      margin-top: 28px;
+    }
+
+    .contract-card {
+      background: #f8fafc;
+      border: 1px solid #e1e6ed;
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .contract-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+
+    /* ==========================================
+       BOOKMARKED APP
+       ========================================== */
+
+    .app-card {
+      position: fixed;
+      right: 25px;
+      bottom: 25px;
+      width: 300px;
+      background: white;
+      border: 1px solid #dce2e9;
+      border-radius: 10px;
+      padding: 18px;
+      box-shadow: 0 8px 30px rgba(20, 35, 60, .14);
+    }
+
+    .app-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: #e9f0ff;
+      color: #2867ce;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .app-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .app-description {
+      color: #737e8e;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 6px 0 16px;
+    }
+
+    .generate-btn {
+      width: 100%;
+      padding: 11px;
+      border: 0;
+      border-radius: 6px;
+      background: #2867ce;
+      color: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .generate-btn:hover {
+      background: #205ab8;
+    }
+
+
+    /* ==========================================
+       EMAIL MODAL
+       ========================================== */
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .48);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(700px, 100%);
+      max-height: 90vh;
+      overflow-y: auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid #e4e8ed;
+      display: flex;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .close {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: #737e8e;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .email-field {
+      margin-bottom: 18px;
+    }
+
+    .email-label {
+      font-size: 12px;
+      color: #737e8e;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    .email-value {
+      border: 1px solid #dfe4ea;
+      border-radius: 6px;
+      background: #f8f9fb;
+      padding: 12px;
+      font-size: 14px;
+    }
+
+    .email-content {
+      min-height: 350px;
+      white-space: pre-wrap;
+      line-height: 1.65;
+    }
+
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid #e4e8ed;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .copy-btn {
+      padding: 10px 18px;
+      border: 0;
+      border-radius: 6px;
+      background: #2867ce;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .copy-btn.copied {
+      background: #16865a;
+    }
+
+
+    @media (max-width: 800px) {
+
+      .sidebar {
+        display: none;
+      }
+
+      .fields,
+      .contract-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .app-card {
+        left: 18px;
+        right: 18px;
+        width: auto;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+
+  <!-- ==========================================
+       HEADER
+       ========================================== -->
+
+  <header class="topbar">
+
+    <div class="logo">
+      Contact Center
+    </div>
+
+    <div class="agent">
+      <span class="online-dot"></span>
+      Available · JD
+    </div>
+
+  </header>
+
+
+  <div class="layout">
+
+
+    <!-- ========================================
+         SIDEBAR
+         ======================================== -->
+
+    <aside class="sidebar">
+
+      <div class="nav">
+        Dashboard
+      </div>
+
+      <div class="nav">
+        Interactions
+      </div>
+
+      <div class="nav active">
+        Customers
+      </div>
+
+      <div class="nav">
+        History
+      </div>
+
+      <div class="nav">
+        Reports
+      </div>
+
+    </aside>
+
+
+    <!-- ========================================
+         MAIN PAGE
+         ======================================== -->
+
+    <main class="page">
+
+
+      <!-- TEST CASE SWITCHER -->
+
+      <div class="test-panel">
+
+        <div class="test-label">
+          TEST CUSTOMER PROFILE
+        </div>
+
+        <div class="case-selector">
+
+          <button
+            class="case-button active"
+            data-case="0"
+          >
+            Hyperspeed 100
+          </button>
+
+          <button
+            class="case-button"
+            data-case="1"
+          >
+            Hyperspeed 175
+          </button>
+
+          <button
+            class="case-button"
+            data-case="2"
+          >
+            Hyperspeed 350
+          </button>
+
+          <button
+            class="case-button"
+            data-case="3"
+          >
+            Hyperspeed 700
+          </button>
+
+          <button
+            class="case-button"
+            data-case="4"
+          >
+            Hyperspeed 1Gig
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="breadcrumb">
+        Customers / Customer Profile
+      </div>
+
+
+      <!-- CUSTOMER PROFILE -->
+
+      <section class="profile">
+
+
+        <div class="profile-header">
+
+          <div
+            class="avatar"
+            id="customerInitials"
+          >
+            AB
+          </div>
+
+
+          <div>
+
+            <div
+              class="customer-name"
+              id="customerName"
+            >
+              Alex Brown
+            </div>
+
+
+            <div
+              class="customer-id"
+              id="customerId"
+            >
+              Customer #10001
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="profile-body">
+
+
+          <div class="section-title">
+            Customer Information
+          </div>
+
+
+          <div class="fields">
+
+
+            <div>
+
+              <div class="field-label">
+                Email
+              </div>
+
+              <div
+                class="field-value"
+                id="customerEmail"
+              >
+                alex.brown@example.com
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="field-label">
+                Company
+              </div>
+
+              <div
+                class="field-value"
+                id="customerCompany"
+              >
+                Example Company
+              </div>
+
+            </div>
+
+
+            <div>
+
+              <div class="field-label">
+                Current Speed
+              </div>
+
+              <div
+                class="field-value"
+                id="currentSpeed"
+              >
+                Hyperspeed 100
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <!-- CONTRACT -->
+
+          <div class="contract-section">
+
+
+            <div class="section-title">
+              Contract Information
+            </div>
+
+
+            <div class="contract-card">
+
+
+              <div class="contract-grid">
+
+
+                <div>
+
+                  <div class="field-label">
+                    Contract Number
+                  </div>
+
+                  <div
+                    class="field-value"
+                    id="contractNumber"
+                  >
+                    CN-10001-2024
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <div class="field-label">
+                    Contract Start
+                  </div>
+
+                  <div
+                    class="field-value"
+                    id="startDate"
+                  >
+                    June 30, 2024
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <div class="field-label">
+                    Contract End
+                  </div>
+
+                  <div
+                    class="field-value"
+                    id="endDate"
+                  >
+                    June 30, 2026
+                  </div>
+
+                </div>
+
+
+                <div>
+
+                  <div class="field-label">
+                    Current Price
+                  </div>
+
+                  <div
+                    class="field-value"
+                    id="currentPrice"
+                  >
+                    $59.95
+                  </div>
+
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <!-- ==========================================
+       BOOKMARK APP
+       ========================================== -->
+
+  <aside class="app-card">
+
+    <div class="app-icon">
+      ✉
+    </div>
+
+    <div class="app-title">
+      Contract Renewal Assistant
+    </div>
+
+    <div class="app-description">
+      Generate a renewal email using the current
+      customer's contract information.
+    </div>
+
+    <button
+      class="generate-btn"
+      id="generateEmail"
+    >
+      Generate Renewal Email
+    </button>
+
+  </aside>
+
+
+  <!-- ==========================================
+       EMAIL MODAL
+       ========================================== -->
+
+  <div
+    class="modal-overlay"
+    id="emailModal"
+  >
+
+    <div class="modal">
+
+
+      <div class="modal-header">
+
+        <div class="modal-title">
+          Contract Renewal Email
+        </div>
+
+        <button
+          class="close"
+          id="closeModal"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+
+        <div class="email-field">
+
+          <div class="email-label">
+            Subject
+          </div>
+
+          <div
+            class="email-value"
+            id="emailSubject"
+          ></div>
+
+        </div>
+
+
+        <div class="email-field">
+
+          <div class="email-label">
+            Email Content
+          </div>
+
+          <div
+            class="email-value email-content"
+            id="emailContent"
+          ></div>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="copy-btn"
+          id="copyEmail"
+        >
+          Copy Email
+        </button>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <script src="test.js"></script>
+
+</body>
+</html>
